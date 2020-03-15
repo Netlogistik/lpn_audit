@@ -15,6 +15,7 @@ def main():
     differences.rename(columns = {'_merge':'Present in'}, inplace=True)
 
     # Print summary analysis
+    print('-'*50)
     print("Audit Summary")
     print('-'*50)
     count_row1 = round(differences.shape[0] / 2)
@@ -23,6 +24,7 @@ def main():
     print(str(audit_data.shape[0]) + ' peices audited.')
     print(str(count_row1) + ' of the ' + str(count_row2) + ' pieces have variances.')
     print('Accuracy rate is ' + str(100 - diff_percentage) + ' %.')
+    print('-'*50)
 
 # function accept user input
 def create_list(row_count):
@@ -30,7 +32,20 @@ def create_list(row_count):
 
     user_audit = []
     for x in range(row_count):
-        user_audit.append([object(input("LPN: ")), object(input("Part No: ")), int(input("Quantity: "))])
+        try:
+            print('-'*50)
+            print('Scan item ...')
+            print('-'*50)
+            user_lpn = input("LPN: ")
+            if(len(user_lpn) == 0):
+                print("* Blank LPN will be considered a variance")
+            user_part = input("Part No: ")
+            if(len(user_part) == 0):
+                print("* Blank Part No will be considered a variance")
+            user_qty = int(input("Qty: "))
+            user_audit.append([user_lpn,user_part,user_qty])
+        except ValueError:
+            print("* Blank Quantity will be considered a variance")
     return user_audit
 
 # function to compare two dataframes
